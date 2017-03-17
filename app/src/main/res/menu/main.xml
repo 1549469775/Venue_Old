@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_map"
+        android:title="地图"
+        android:icon="@drawable/ic_map" />
+    <item
+        android:id="@+id/menu_found"
+        android:title="发现"
+        android:icon="@drawable/ic_found" />
+    <item
+        android:id="@+id/menu_read"
+        android:title="浏览"
+        android:icon="@drawable/ic_read" />
+    <item
+        android:id="@+id/menu_news"
+        android:title="消息"
+        android:icon="@drawable/ic_news" />
+    <item
+        android:id="@+id/menu_person"
+        android:title="个人"
+        android:icon="@drawable/ic_person" />
+</menu>
