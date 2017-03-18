@@ -10,8 +10,10 @@ import com.example.jhon.venue.Bean.User;
 
 public interface LoginListener {
 
-    ViewGroup getLoadView();
-    User getUser();
-    void startToActivity(Class c);
+
+    String getUsername();
+    String getPassword();
+    String getNickname();
+    void startToActivity();
 
 }

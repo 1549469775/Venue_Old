@@ -261,7 +261,7 @@ public class Read_Location_Fragment extends Fragment implements RV_Swripe_Adapte
 
         public TextAdapter(View itemView) {
             super(itemView);
-            text= (ImageView) itemView.findViewById(R.id.text1111);
+            text= (ImageView) itemView.findViewById(R.id.img_person);
         }
     }
 
