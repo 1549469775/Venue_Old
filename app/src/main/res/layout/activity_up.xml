@@ -100,7 +100,9 @@
         </LinearLayout>
 
         <Switch
+            android:id="@+id/switch_private"
             android:text="私密"
+            android:onClick="switch_text"
             app:buttonTint="@color/amber_primary"
             android:layout_marginEnd="20dp"
             android:layout_width="wrap_content"
@@ -111,6 +113,7 @@
     <Button
         android:id="@+id/btn_up_submit"
         android:text="SUBMIT"
+        android:onClick="submit"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_width="match_parent"

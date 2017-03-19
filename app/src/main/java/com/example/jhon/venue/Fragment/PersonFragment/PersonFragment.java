@@ -32,6 +32,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.jhon.venue.Activity.LoginActivity;
+import com.example.jhon.venue.Activity.ShowActivity;
 import com.example.jhon.venue.Adapter.Person_RV_Adapter;
 import com.example.jhon.venue.Bean.Icon;
 import com.example.jhon.venue.Bean.User;
@@ -128,12 +129,25 @@ public class PersonFragment extends Fragment {
                             break;
                         case R.id.img_person:
                             if (UserUtil.getUser().isLogin){
-                                showDialogForImg();
+//                                showDialogForImg();
+                                Intent i=new Intent(getContext(), ShowActivity.class);
+                                i.putExtra("showImg",UserUtil.getUser().getImagePath());
+                                startActivity(i);
                             }else {
                                 Snackbar.make(view,"请先登录吧",Snackbar.LENGTH_SHORT).show();
                             }
                             break;
                     }
+            }
+        });
+        person_rv_adapter.setOnLongClickListener(new Person_RV_Adapter.OnLongClickListener() {
+            @Override
+            public void onLongClick(View view) {
+                if (UserUtil.getUser().isLogin){
+                    showDialogForImg();
+                }else {
+                    Snackbar.make(view,"请先登录吧",Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
         rv_person.setAdapter(person_rv_adapter);
@@ -171,7 +185,6 @@ public class PersonFragment extends Fragment {
                             if (e==null){
 //                                img_person.setImageBitmap(bitmap);
                                 Glide.with(getContext()).load(picturePath).centerCrop().into(img_person);
-
                                 UIProgressDialog.closeProgress();
                                 Snackbar.make(view,"goodJob",Snackbar.LENGTH_SHORT).show();
                             }else {
@@ -213,7 +226,7 @@ public class PersonFragment extends Fragment {
         super.onResume();
         User user=UserUtil.getUser();
         if (user.isLogin){
-            tv_person_name.setText(user.getNickname());
+            tv_person_name.setText(user.getNickname()+"");
             Glide.with(getContext()).load(user.getImagePath()).centerCrop().into(img_person);
         }
     }

@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.jhon.venue.Adapter.RV_Swripe_Adapter;
@@ -225,6 +226,8 @@ public class Read_Page_Fragment extends Fragment implements RV_Swripe_Adapter.Ad
                 }
             });
         }else if (holder instanceof PersonAdapter){
+            ((PersonAdapter) holder).tv_detail_title.setText(list.get(position).getDesc());
+            ((PersonAdapter) holder).tv_detail_subtitle.setText(list.get(position).getCreatedAt()+"");
 //            ((PersonAdapter)holder).btn_card_main1_action1.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {
@@ -242,7 +245,6 @@ public class Read_Page_Fragment extends Fragment implements RV_Swripe_Adapter.Ad
 //                getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
 //                String url=list.get(position).getUrl();
 //                url=url+"?imageView2/0/w/"+dm.widthPixels;
-
                 Glide.with(getContext()).load(list.get(position).getUrl())
                         .override(view.getMeasuredWidth(),view.getMeasuredWidth())
                         .centerCrop()
@@ -293,12 +295,15 @@ public class Read_Page_Fragment extends Fragment implements RV_Swripe_Adapter.Ad
 
         private Button btn_card_main1_action1, btn_card_main1_action2;
         private ImageView img_detail_bg;
+        private TextView tv_detail_title,tv_detail_subtitle;
 
         public PersonAdapter(View itemView) {
             super(itemView);
 //            btn_card_main1_action1 = (Button) itemView.findViewById(R.id.btn_card_main1_action1);
 //            btn_card_main1_action2 = (Button) itemView.findViewById(R.id.btn_card_main1_action2);
             img_detail_bg = (ImageView) itemView.findViewById(R.id.img_detail_bg);
+            tv_detail_title= (TextView) itemView.findViewById(R.id.tv_detail_title);
+            tv_detail_subtitle= (TextView) itemView.findViewById(R.id.tv_detail_subtitle);
         }
     }
 

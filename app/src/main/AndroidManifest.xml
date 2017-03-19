@@ -58,6 +58,7 @@
         <activity android:name=".Activity.LoginActivity"/>
         <activity android:name=".Activity.Activity_Up"/>
         <activity android:name=".Activity.PersonDetailActivity"/>
+        <activity android:name=".Activity.ShowActivity" android:theme="@style/Dialog"/>
     </application>
 
 </manifest>

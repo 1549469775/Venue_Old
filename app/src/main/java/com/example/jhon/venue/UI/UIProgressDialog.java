@@ -16,6 +16,7 @@ public class UIProgressDialog {
         if (progressDialog==null){
             progressDialog=new ProgressDialog(context);
         }
+        progressDialog.setCancelable(false);
         progressDialog.setMessage(message);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();

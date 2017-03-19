@@ -84,6 +84,13 @@ public class Person_RV_Adapter extends RecyclerView.Adapter<Person_RV_Adapter.Pe
                         onImgClickListener.onImgClick(v);
                     }
                 });
+                holder.img_person.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        onLongClickListener.onLongClick(v);
+                        return false;
+                    }
+                });
                 break;
             case 1:
                 //动态添加
@@ -167,4 +174,13 @@ public class Person_RV_Adapter extends RecyclerView.Adapter<Person_RV_Adapter.Pe
         this.onImgClickListener=onImgClickListener;
     }
 
+    private OnLongClickListener onLongClickListener;
+
+    public interface OnLongClickListener{
+        void onLongClick(View view);
+    }
+
+    public void setOnLongClickListener(OnLongClickListener onLongClickListener) {
+        this.onLongClickListener = onLongClickListener;
+    }
 }
