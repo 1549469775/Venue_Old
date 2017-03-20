@@ -32,6 +32,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.jhon.venue.Activity.LoginActivity;
+import com.example.jhon.venue.Activity.PersonDetailActivity;
 import com.example.jhon.venue.Activity.ShowActivity;
 import com.example.jhon.venue.Adapter.Person_RV_Adapter;
 import com.example.jhon.venue.Bean.Icon;
@@ -41,6 +42,7 @@ import com.example.jhon.venue.Interface.JudgeInterface;
 import com.example.jhon.venue.Model.UploadOperation;
 import com.example.jhon.venue.R;
 import com.example.jhon.venue.UI.UIProgressDialog;
+import com.example.jhon.venue.Util.GlideCircleTransformUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -125,6 +127,7 @@ public class PersonFragment extends Fragment {
                                 startActivity(new Intent(getContext(), LoginActivity.class));
                             }else {
                                 Snackbar.make(view,"GoodJob"+UserUtil.getUser().getNickname(),Snackbar.LENGTH_SHORT).show();
+                                startActivity(new Intent(getContext(), PersonDetailActivity.class));
                             }
                             break;
                         case R.id.img_person:
@@ -183,8 +186,8 @@ public class PersonFragment extends Fragment {
                         @Override
                         public void done(BmobException e) {
                             if (e==null){
-//                                img_person.setImageBitmap(bitmap);
-                                Glide.with(getContext()).load(picturePath).centerCrop().into(img_person);
+//                                img_person.setImageBitmap(bitmap);//.centerCrop()
+                                Glide.with(getContext()).load(picturePath).transform(new GlideCircleTransformUtil(getContext())).into(img_person);
                                 UIProgressDialog.closeProgress();
                                 Snackbar.make(view,"goodJob",Snackbar.LENGTH_SHORT).show();
                             }else {
@@ -227,8 +230,8 @@ public class PersonFragment extends Fragment {
         User user=UserUtil.getUser();
         if (user.isLogin){
             tv_person_name.setText(user.getNickname()+"");
-            Glide.with(getContext()).load(user.getImagePath()).centerCrop().into(img_person);
-        }
+            Glide.with(getContext()).load(user.getImagePath()).transform(new GlideCircleTransformUtil(getContext())).into(img_person);
+        }//.centerCrop()
     }
 
     /**

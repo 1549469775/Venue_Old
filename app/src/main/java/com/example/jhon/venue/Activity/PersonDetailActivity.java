@@ -1,17 +1,27 @@
 package com.example.jhon.venue.Activity;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.example.jhon.venue.Adapter.PersonDetail_RV_Adapter;
+import com.example.jhon.venue.Bean.ActicalListUtil;
+import com.example.jhon.venue.Bean.UserUtil;
 import com.example.jhon.venue.R;
 
 import java.util.ArrayList;
@@ -26,16 +36,29 @@ public class PersonDetailActivity extends AppCompatActivity implements PersonDet
     private RecyclerView rvPersondetail;
     private PersonDetail_RV_Adapter personDetail_rv_adapter;
 
+    private ImageView persondetail_person_bg;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.persondetail_main);
 
+        WindowManager windowManager=(WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
+        int width=windowManager.getDefaultDisplay().getWidth();
+
         Toolbar toolbar_up= (Toolbar) findViewById(R.id.toolbar_persondetail);
         setSupportActionBar(toolbar_up);
         getSupportActionBar().setHomeButtonEnabled(true);//设置返回键可用
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar_up.setTitle("个人");
+
+        CollapsingToolbarLayout collapsingToolbarLayout= (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbarLayout);
+        collapsingToolbarLayout.setCollapsedTitleTextColor(Color.BLACK);
+        collapsingToolbarLayout.setExpandedTitleColor(Color.WHITE);
+
+        //人物头像
+        persondetail_person_bg= (ImageView) findViewById(R.id.persondetail_person_bg);
+//        Glide.with(this).load(UserUtil.getUser().getImagePath())
+//                .override(width,width).into(persondetail_person_bg);
 
         rvPersondetail = (RecyclerView) findViewById(R.id.rv_persondetail);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
@@ -47,6 +70,8 @@ public class PersonDetailActivity extends AppCompatActivity implements PersonDet
         a.add("sda");
         a.add("sda");
         List<String> b=new ArrayList<>();
+
+        Snackbar.make(persondetail_person_bg,""+ ActicalListUtil.getList().size(),Snackbar.LENGTH_SHORT).show();
 
         Log.d("sas","sasdasds");/*数据包括日期，封面，标题*/
         personDetail_rv_adapter=new PersonDetail_RV_Adapter(this,b,a);

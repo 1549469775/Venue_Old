@@ -3,6 +3,7 @@ package com.example.jhon.venue.Preference;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.jhon.venue.Bean.ActicalListUtil;
 import com.example.jhon.venue.Interface.JudgeInterface;
 import com.example.jhon.venue.Interface.UpListener;
 import com.example.jhon.venue.Model.UpOperation;
@@ -34,6 +35,9 @@ public class UpAction {
             @Override
             public void done(String s, BmobException e) {
                 if (e==null){
+
+                    ActicalListUtil.addList(listener.getActical());
+
                     UIProgressDialog.closeProgress();
                     lis.onSuccess();
                 }else {

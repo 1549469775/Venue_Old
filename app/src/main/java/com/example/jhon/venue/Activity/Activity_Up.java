@@ -21,6 +21,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.jhon.venue.Bean.Actical;
+import com.example.jhon.venue.Bean.ActicalListUtil;
 import com.example.jhon.venue.Bean.LocationData;
 import com.example.jhon.venue.Bean.User;
 import com.example.jhon.venue.Bean.UserUtil;

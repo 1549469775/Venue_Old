@@ -40,7 +40,7 @@
                 android:id="@+id/persondetail_person_cell"
                 android:padding="10dp"
                 android:layout_gravity="center_horizontal"
-                android:text="完美空间"
+                android:text="城市堡垒"
                 android:textSize="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
