@@ -3,7 +3,6 @@ package com.example.jhon.venue.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -11,17 +10,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.example.jhon.venue.Adapter.PersonDetail_RV_Adapter;
 import com.example.jhon.venue.Bean.ActicalListUtil;
-import com.example.jhon.venue.Bean.UserUtil;
+import com.example.jhon.venue.Bean.Article;
+import com.example.jhon.venue.DBUtil.DB_Session;
 import com.example.jhon.venue.R;
 
 import java.util.ArrayList;
@@ -70,9 +68,7 @@ public class PersonDetailActivity extends AppCompatActivity implements PersonDet
         a.add("sda");
         a.add("sda");
         List<String> b=new ArrayList<>();
-
-        Snackbar.make(persondetail_person_bg,""+ ActicalListUtil.getList().size(),Snackbar.LENGTH_SHORT).show();
-
+        
         Log.d("sas","sasdasds");/*数据包括日期，封面，标题*/
         personDetail_rv_adapter=new PersonDetail_RV_Adapter(this,b,a);
         personDetail_rv_adapter.setAddViewAdapterListener(this);

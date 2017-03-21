@@ -2,7 +2,12 @@ package com.example.jhon.venue;
 
 import android.app.Application;
 
+import com.example.jhon.venue.Bean.DaoMaster;
+import com.example.jhon.venue.Bean.DaoSession;
 import com.zhy.http.okhttp.OkHttpUtils;
+
+import org.greenrobot.greendao.database.Database;
+import com.example.jhon.venue.Bean.DaoMaster.DevOpenHelper;
 
 import java.util.concurrent.TimeUnit;
 
@@ -16,6 +21,12 @@ import okhttp3.OkHttpClient;
 
 public class MyApplication extends Application
 {
+
+    /** A flag to show how easily you can switch from standard SQLite to the encrypted SQLCipher. */
+    public static final boolean ENCRYPTED = true;
+
+    private DaoSession daoSession;
+
     @Override
     public void onCreate()
     {
@@ -43,5 +54,14 @@ public class MyApplication extends Application
 
         OkHttpUtils.initClient(okHttpClient);
 
+        //数据库的配置
+        DevOpenHelper helper = new DevOpenHelper(this, ENCRYPTED ? "venue-notes-db-encrypted" : "venue-notes-db");//前者为加密的，后者为不加密的
+        Database db = ENCRYPTED ? helper.getEncryptedWritableDb("super-secret") : helper.getWritableDb();
+        daoSession = new DaoMaster(db).newSession();
+
+    }
+
+    public DaoSession getDaoSession() {
+        return daoSession;
     }
 }

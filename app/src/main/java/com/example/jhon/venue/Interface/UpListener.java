@@ -1,6 +1,6 @@
 package com.example.jhon.venue.Interface;
 
-import com.example.jhon.venue.Bean.Actical;
+import com.example.jhon.venue.Bean.Article;
 
 /**
  * Created by John on 2017/3/19.
@@ -8,6 +8,6 @@ import com.example.jhon.venue.Bean.Actical;
 
 public interface UpListener {
 
-    Actical getActical();
+    Article getArticle();
 
 }

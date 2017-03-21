@@ -7,6 +7,7 @@ import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +15,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.jhon.venue.Activity.LoginActivity;
 import com.example.jhon.venue.Activity.PersonDetailActivity;
 import com.example.jhon.venue.Bean.Icon;
 import com.example.jhon.venue.R;
+import com.example.jhon.venue.Util.GlideCircleTransformUtil;
 
 import java.util.List;
 
@@ -29,6 +32,10 @@ public class Person_RV_Adapter extends RecyclerView.Adapter<Person_RV_Adapter.Pe
 
     private Context context;
 
+    private boolean isFirst=true,isSecond=true;
+
+    private String nickname;
+    private String imagePath;
     private List<Integer> list_layout;
     private List<Icon> list_icon;
     private List<Icon> list_icon_bottom;
@@ -71,6 +78,10 @@ public class Person_RV_Adapter extends RecyclerView.Adapter<Person_RV_Adapter.Pe
     public void onBindViewHolder(final PersonAdapter holder, final int position) {
         switch (getItemViewType(position)){
             case 0:
+                if (!TextUtils.isEmpty(nickname)){
+                    holder.tv_person_name.setText(nickname);
+                    Glide.with(context).load(imagePath).transform(new GlideCircleTransformUtil(context)).into(holder.img_person);
+                }
                 holder.card_person_top.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -93,41 +104,48 @@ public class Person_RV_Adapter extends RecyclerView.Adapter<Person_RV_Adapter.Pe
                 });
                 break;
             case 1:
-                //动态添加
-                for (int i=0;i<list_icon.size();i++){
-                    View view=LayoutInflater.from(context).inflate(R.layout.person_center_item,holder.ll_person_center,false);
-                    view.setTag(i);//为了给他们编序号
-                    ((ImageView)view.findViewById(R.id.img_person_item)).setImageResource(list_icon.get(i).getiId());
-                    ((TextView)view.findViewById(R.id.tv_person_item)).setText(list_icon.get(i).getiName());
-                    if (list_icon.get(i).getiId()==0){//当没有图片时
-                        ((TextView)view.findViewById(R.id.tv_person_item)).setTextSize(13);
-                        ((TextView)view.findViewById(R.id.tv_person_item)).setTextColor(Color.BLACK);
-                    }
-                    view.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Snackbar.make(v,""+v.getTag()+list_icon.get((int)v.getTag()).getiName(),Snackbar.LENGTH_SHORT).show();
+                if (isFirst){
+                    //动态添加
+                    for (int i=0;i<list_icon.size();i++){
+                        View view=LayoutInflater.from(context).inflate(R.layout.person_center_item,holder.ll_person_center,false);
+                        view.setTag(i);//为了给他们编序号
+                        ((ImageView)view.findViewById(R.id.img_person_item)).setImageResource(list_icon.get(i).getiId());
+                        ((TextView)view.findViewById(R.id.tv_person_item)).setText(list_icon.get(i).getiName());
+                        if (list_icon.get(i).getiId()==0){//当没有图片时
+                            ((TextView)view.findViewById(R.id.tv_person_item)).setTextSize(13);
+                            ((TextView)view.findViewById(R.id.tv_person_item)).setTextColor(Color.BLACK);
                         }
-                    });
-                    holder.ll_person_center.addView(view);
+                        view.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Snackbar.make(v,""+v.getTag()+list_icon.get((int)v.getTag()).getiName(),Snackbar.LENGTH_SHORT).show();
+                            }
+                        });
+                        holder.ll_person_center.addView(view);
+                        isFirst=false;
+                }
                 }
                 break;
             case 2:
-                //动态添加
-                for (int i=0;i<list_icon_bottom.size();i++){
-                    View view=LayoutInflater.from(context).inflate(R.layout.person_center_item,holder.ll_person_center,false);
-                    view.setTag(i);//为了给他们编序号
-                    ((ImageView)view.findViewById(R.id.img_person_item)).setImageResource(list_icon_bottom.get(i).getiId());
-                    ((TextView)view.findViewById(R.id.tv_person_item)).setText(list_icon_bottom.get(i).getiName());
+                if (isSecond){
+                    //动态添加
+                    for (int i=0;i<list_icon_bottom.size();i++){
+                        View view=LayoutInflater.from(context).inflate(R.layout.person_center_item,holder.ll_person_center,false);
+                        view.setTag(i);//为了给他们编序号
+                        ((ImageView)view.findViewById(R.id.img_person_item)).setImageResource(list_icon_bottom.get(i).getiId());
+                        ((TextView)view.findViewById(R.id.tv_person_item)).setText(list_icon_bottom.get(i).getiName());
 //                    ((LinearLayout)view.getRootView()).removeViewAt(2);//去除按钮中的>图片
-                    view.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Snackbar.make(v,""+v.getTag(),Snackbar.LENGTH_SHORT).show();
-                        }
-                    });
-                    holder.ll_person_center.addView(view);
+                        view.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Snackbar.make(v,""+v.getTag(),Snackbar.LENGTH_SHORT).show();
+                            }
+                        });
+                        holder.ll_person_center.addView(view);
+                    }
+                    isSecond=false;
                 }
+
                 break;
         }
 
@@ -138,11 +156,20 @@ public class Person_RV_Adapter extends RecyclerView.Adapter<Person_RV_Adapter.Pe
         return list_layout.size();
     }
 
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     public class PersonAdapter extends RecyclerView.ViewHolder {
 
         private LinearLayout ll_person_center;
         private CardView card_person_top;
         private ImageView img_person;
+        private TextView tv_person_name;
 //        private TextView tv_person_name;
 
         public PersonAdapter(View itemView) {
@@ -151,6 +178,7 @@ public class Person_RV_Adapter extends RecyclerView.Adapter<Person_RV_Adapter.Pe
             img_person=(ImageView) itemView.findViewById(R.id.img_person);
             ll_person_center= (LinearLayout) itemView.findViewById(R.id.ll_person_center);
             card_person_top= (CardView) itemView.findViewById(R.id.card_person_top);
+            tv_person_name= (TextView) itemView.findViewById(R.id.tv_person_name);
         }
     }
 

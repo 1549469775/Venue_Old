@@ -9,14 +9,14 @@ import java.util.List;
 
 public class ActicalListUtil {
 
-    private static List<Actical> list = new ArrayList<>();
+    private static List<Article> list = new ArrayList<>();
 
-    public static List<Actical> getList() {
+    public static List<Article> getList() {
 
         return list;
     }
 
-    public static void addList(Actical actical) {
-        list.add(actical);
+    public static void addList(Article article) {
+        list.add(article);
     }
 }

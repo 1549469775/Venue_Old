@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.example.jhon.venue.Adapter.RV_Swripe_Adapter;
 import com.example.jhon.venue.Bean.Imm;
 import com.example.jhon.venue.Bean.ImmUtil;
+import com.example.jhon.venue.DBUtil.DB_Session;
 import com.example.jhon.venue.Interface.JudgeInterface;
 import com.example.jhon.venue.Interface.LoadMoreDataListener;
 import com.example.jhon.venue.R;
@@ -67,28 +68,28 @@ public class Read_Page_Fragment extends Fragment implements RV_Swripe_Adapter.Ad
     }
 
     private void initData() {
-        srl_read_page.setEnabled(false);
-        page=1;
-        firstpage=1;
-        srl_read_page.setRefreshing(true);
-        UpdateDataUtil.initData("http://gank.io/api/data/福利/10/" + page, new JudgeInterface() {
-            @Override
-            public void onSuccess() {
-                srl_read_page.setRefreshing(false);
-                list.clear();
-                list.addAll(ImmUtil.getImm().getResults());
-                rv_swripe_adapter.notifyDataSetChanged();
+            srl_read_page.setEnabled(false);
+            page=1;
+            firstpage=1;
+            srl_read_page.setRefreshing(true);
+            UpdateDataUtil.initData("http://gank.io/api/data/福利/10/" + page, new JudgeInterface() {
+                @Override
+                public void onSuccess() {
+                    srl_read_page.setRefreshing(false);
+                    list.clear();
+                    list.addAll(ImmUtil.getImm().getResults());
+                    rv_swripe_adapter.notifyDataSetChanged();
 
-                isFirst=false;
-                srl_read_page.setEnabled(true);
-                rv_swripe_adapter.setLoaded(false);
-            }
+                    isFirst=false;
+                    srl_read_page.setEnabled(true);
+                    rv_swripe_adapter.setLoaded(false);
+                }
 
-            @Override
-            public void onError(Exception e) {
-                srl_read_page.setRefreshing(false);
-            }
-        });
+                @Override
+                public void onError(Exception e) {
+                    srl_read_page.setRefreshing(false);
+                }
+            });
     }
 
     //初始化加载更多数据,数据最好超过临界值5

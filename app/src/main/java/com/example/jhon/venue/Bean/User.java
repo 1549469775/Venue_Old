@@ -8,7 +8,7 @@ import cn.bmob.v3.BmobUser;
 
 public class User extends BmobUser{
 
-    private String nickname="venue";
+    private String nickname="venue_";
     public boolean isLogin=false;
     private String imagePath="defult";
 

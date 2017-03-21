@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion 25
@@ -26,6 +27,10 @@ android {
     }
 }
 
+greendao {
+    schemaVersion 1
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -39,7 +44,11 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.3.1'
     compile 'com.zhy:okhttputils:2.6.2'
     compile 'com.google.code.gson:gson:2.2.4'
+    compile 'org.greenrobot:greendao:3.2.0'
+    // This is only needed if you want to use encrypted databases
+    compile 'net.zetetic:android-database-sqlcipher:3.5.4'
     compile files('libs/BmobSDK_3.5.3_20161116.jar')
     compile files('libs/rxandroid-1.2.0.jar')
     compile files('libs/rxjava-1.1.6.jar')
 }
+uploadArchives.enabled = false

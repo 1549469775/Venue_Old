@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,14 +21,12 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.example.jhon.venue.Bean.Actical;
-import com.example.jhon.venue.Bean.ActicalListUtil;
+import com.example.jhon.venue.Bean.Article;
 import com.example.jhon.venue.Bean.LocationData;
-import com.example.jhon.venue.Bean.User;
 import com.example.jhon.venue.Bean.UserUtil;
+import com.example.jhon.venue.DBUtil.DB_Session;
 import com.example.jhon.venue.Interface.JudgeInterface;
 import com.example.jhon.venue.Interface.UpListener;
-import com.example.jhon.venue.Map.Location;
 import com.example.jhon.venue.Preference.UpAction;
 import com.example.jhon.venue.R;
 
@@ -45,7 +44,7 @@ public class Activity_Up extends AppCompatActivity implements UpListener {
     private ImageView img_up_booktop;
 
     private String imagePath="default";
-    private Actical actical=null;
+    private Article article =null;
 
     private UpAction action=new UpAction(this,this);
 
@@ -83,55 +82,64 @@ public class Activity_Up extends AppCompatActivity implements UpListener {
 
     //提交
     public void submit(final View view){
-        if (actical==null){
-            actical=new Actical();
-            actical.setTitle(et_up_title.getText().toString());
-            actical.setOne_imagePath(UserUtil.getUser().getImagePath());
-            actical.setOne_nickname(UserUtil.getUser().getNickname());
-            actical.setOne_objectId(UserUtil.getUser().getObjectId());
-            actical.setImagePath(imagePath);
-            actical.setNote(et_up_assent.getText().toString());
-            actical.setLatitude(LocationData.Latitude);
-            actical.setLongtitude(LocationData.longtitude);
-            actical.setAddress(LocationData.address);
-        }
-        action.submit(new JudgeInterface() {
-            @Override
-            public void onSuccess() {
-                Snackbar.make(view,"Success",Snackbar.LENGTH_SHORT).show();
+        if (UserUtil.getUser().isLogin){
+            if (article ==null){
+                article =new Article();
+                article.setTitle(et_up_title.getText().toString());
+                article.setOne_imagePath(UserUtil.getUser().getImagePath());
+                article.setOne_nickname(UserUtil.getUser().getNickname());
+                article.setOne_objectId(UserUtil.getUser().getObjectId());
+                article.setImagePath(imagePath);
+                article.setNote(et_up_assent.getText().toString());
+                article.setLatitude(LocationData.Latitude);
+                article.setLongtitude(LocationData.longtitude);
+                article.setAddress(LocationData.address);
             }
+            action.submit(new JudgeInterface() {
+                @Override
+                public void onSuccess() {Log.d("xyx","hssit");
+                    article=null;//为了重新创建一个article
+                    Snackbar.make(view,"yiaSuccess",Snackbar.LENGTH_SHORT).show();
+                }
 
-            @Override
-            public void onError(Exception e) {
-                Snackbar.make(view,e.getMessage(),Snackbar.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onError(Exception e) {
+                    Log.d("xyx","herre");
+                    Log.d("xyx",e.getMessage());
+                    Snackbar.make(view,e.getMessage(),Snackbar.LENGTH_SHORT).show();
+                }
+            });
+        }else {
+            startActivity(new Intent(Activity_Up.this,LoginActivity.class));
+            finish();
+        }
+
     }
 
     public void switch_text(View view){
-        if (actical==null){
-            actical=new Actical();
+        if (article ==null){
+            article =new Article();
         }
         if (((Switch) view).isChecked()){
-            actical.setTitle(et_up_title.getText().toString());
-            actical.setOne_imagePath(UserUtil.getUser().getImagePath());
-            actical.setOne_nickname(UserUtil.getUser().getNickname());
-            actical.setOne_objectId(UserUtil.getUser().getObjectId());
-            actical.setImagePath(imagePath);
-            actical.setNote(et_up_assent.getText().toString());
-            actical.setLatitude(LocationData.Latitude);
-            actical.setLongtitude(LocationData.longtitude);
-            actical.setAddress(LocationData.address);
+            article.setTitle(et_up_title.getText().toString());
+            article.setOne_imagePath(UserUtil.getUser().getImagePath());
+            article.setOne_nickname(UserUtil.getUser().getNickname());
+            article.setOne_objectId(UserUtil.getUser().getObjectId());
+            article.setImagePath(imagePath);
+            article.setNote(et_up_assent.getText().toString());
+            article.setLatitude(LocationData.Latitude);
+            article.setLongtitude(LocationData.longtitude);
+            article.setAddress(LocationData.address);
         }else {
-            actical.setTitle(et_up_title.getText().toString());
-            actical.setOne_imagePath(UserUtil.getUser().getImagePath());
-            actical.setOne_nickname(UserUtil.getUser().getNickname());
-            actical.setOne_objectId(UserUtil.getUser().getObjectId());
-            actical.setImagePath(imagePath);
-            actical.setNote(et_up_assent.getText().toString());
-            actical.setLatitude(0);
-            actical.setLongtitude(0);
-            actical.setAddress("default");
+            article.setTitle(et_up_title.getText().toString());
+            article.setOne_imagePath(UserUtil.getUser().getImagePath());
+            article.setOne_nickname(UserUtil.getUser().getNickname());
+            article.setOne_objectId(UserUtil.getUser().getObjectId());
+            article.setImagePath(imagePath);
+            article.setNote(et_up_assent.getText().toString());
+            article.setLatitude(0);
+            article.setLongtitude(0);
+            article.setAddress("default");
         }
     }
 
@@ -167,8 +175,7 @@ public class Activity_Up extends AppCompatActivity implements UpListener {
         }
     }
 
-    @Override
-    public Actical getActical() {
-        return actical;
+    public Article getArticle() {
+        return article;
     }
 }

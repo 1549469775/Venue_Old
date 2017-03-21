@@ -22,6 +22,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,6 +71,7 @@ public class PersonFragment extends Fragment {
     private static int RESULT_LOAD_IMAGE=1;
 
     private RecyclerView rv_person;
+    private Person_RV_Adapter person_rv_adapter;
     private List<Integer> list;
     private List<Icon> list_icon;
     private List<Icon> list_icon_bottom;
@@ -97,7 +99,7 @@ public class PersonFragment extends Fragment {
     }
 
     private void initView() {
-
+        Log.d("xux","gasa");
         rv_person= (RecyclerView) view.findViewById(R.id.rv_person);
         rv_person.setLayoutManager(new LinearLayoutManager(getContext()));
         list=new ArrayList<>();
@@ -113,7 +115,7 @@ public class PersonFragment extends Fragment {
         list_icon_bottom=new ArrayList<>();
         list_icon_bottom.add(new Icon("我的关注"));
         list_icon_bottom.add(new Icon("我的收藏"));
-        Person_RV_Adapter person_rv_adapter=new Person_RV_Adapter(getContext(),list,list_icon,list_icon_bottom);
+        person_rv_adapter=new Person_RV_Adapter(getContext(),list,list_icon,list_icon_bottom);
         person_rv_adapter.setOnImgClickListener(new Person_RV_Adapter.OnImgClickListener() {
             @Override
             public void onImgClick(View view) {
@@ -186,8 +188,11 @@ public class PersonFragment extends Fragment {
                         @Override
                         public void done(BmobException e) {
                             if (e==null){
+                                Log.d("xux","gg");
+                                person_rv_adapter.setImagePath(picturePath);
+                                person_rv_adapter.notifyDataSetChanged();
 //                                img_person.setImageBitmap(bitmap);//.centerCrop()
-                                Glide.with(getContext()).load(picturePath).transform(new GlideCircleTransformUtil(getContext())).into(img_person);
+//                                Glide.with(getContext()).load(picturePath).transform(new GlideCircleTransformUtil(getContext())).into(img_person);
                                 UIProgressDialog.closeProgress();
                                 Snackbar.make(view,"goodJob",Snackbar.LENGTH_SHORT).show();
                             }else {
@@ -229,8 +234,10 @@ public class PersonFragment extends Fragment {
         super.onResume();
         User user=UserUtil.getUser();
         if (user.isLogin){
-            tv_person_name.setText(user.getNickname()+"");
-            Glide.with(getContext()).load(user.getImagePath()).transform(new GlideCircleTransformUtil(getContext())).into(img_person);
+            Log.d("xux",""+user.isLogin);
+            person_rv_adapter.setNickname(user.getNickname().toString());
+            person_rv_adapter.setImagePath(user.getImagePath());
+            person_rv_adapter.notifyDataSetChanged();
         }//.centerCrop()
     }
 

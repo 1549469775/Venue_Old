@@ -1,6 +1,6 @@
 package com.example.jhon.venue.Model;
 
-import com.example.jhon.venue.Bean.Actical;
+import com.example.jhon.venue.Bean.Article;
 import com.example.jhon.venue.Interface.JudgeInterface;
 
 /**
@@ -9,7 +9,7 @@ import com.example.jhon.venue.Interface.JudgeInterface;
 
 public class UpOperation {
 
-    public void uoloadText(Actical actical, JudgeInterface listener){
+    public void uoloadText(Article article, JudgeInterface listener){
 
     }
 
