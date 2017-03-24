@@ -19,6 +19,7 @@ import com.example.jhon.venue.Fragment.MapFragment.MMMFragment;
 import com.example.jhon.venue.Fragment.MapFragment.MapFragment;
 import com.example.jhon.venue.Fragment.Message.MessageFragment;
 import com.example.jhon.venue.Fragment.PersonFragment.PersonFragment;
+import com.example.jhon.venue.Interface.JudgeInterface;
 import com.example.jhon.venue.Map.MapDownload;
 import com.example.jhon.venue.Model.ActicalOperation;
 import com.example.jhon.venue.R;
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FragmentTransaction fragmentTransaction;
     private FragmentManager fragmentManager;
-    private MMMFragment fragment_world;
+    private MapFragment fragment_world;
     private FoundFragment foundFragment;
     private ReadFragment readFragment;
     private MessageFragment messageFragment;
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         if (fragment_world == null) {
             fragmentTransaction = fragmentManager.beginTransaction();
-            fragment_world = (MMMFragment) MMMFragment.newInstance();
+            fragment_world = (MapFragment) MapFragment.newInstance();
             fragmentTransaction.add(R.id.main_framelayout, fragment_world);
             fragmentTransaction.commit();
         }
@@ -101,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
 //                        start(1);
 //                        bottomNavigationView.setItemBackgroundResource(R.color.write);
                         if (fragment_world == null) {
-                            fragment_world = (MMMFragment) MMMFragment.newInstance();
+                            fragment_world = (MapFragment) MapFragment.newInstance();
                             fragmentTransaction.add(R.id.main_framelayout, fragment_world);
                         } else {
                             fragmentTransaction.show(fragment_world);
@@ -159,12 +160,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -181,7 +176,17 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.app_bar_search) {
-            ActicalOperation.getActical();
+            ActicalOperation.getActicalPage(1,new JudgeInterface() {
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onError(Exception e) {
+
+                }
+            });
 //            startActivity(new Intent(MainActivity.this,DetailActivity.class));
             return true;
         }

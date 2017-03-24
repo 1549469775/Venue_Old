@@ -72,7 +72,7 @@ public class Location implements LocationSource,AMapLocationListener {
         settings.setLogoPosition(0);
         settings.setScrollGesturesEnabled(true); //这个方法设置了地图是否允许通过手势来移动。
         settings.setTiltGesturesEnabled(false);//这个方法设置了地图是否允许通过手势来倾斜。
-//        settings.setMyLocationButtonEnabled(true);// 设置默认定位按钮是否显示
+        settings.setMyLocationButtonEnabled(true);// 设置默认定位按钮是否显示
         settings.setZoomControlsEnabled(false);//这个方法设置了地图是否允许显示缩放按钮。
         settings.setRotateGesturesEnabled(false);//这个方法设置了地图是否允许通过手势来旋转。
 
@@ -206,7 +206,7 @@ public class Location implements LocationSource,AMapLocationListener {
 
 //                    aMap.addMarker(getMarkerOptions(amapLocation));//在定位处显示marker
 
-                    new MapDownload().downloadMap(context);//下载地图
+//                    new MapDownload().downloadMap(context);//下载地图
                 }
 
             } else {

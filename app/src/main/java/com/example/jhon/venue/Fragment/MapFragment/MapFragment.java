@@ -42,9 +42,8 @@ public class MapFragment extends Fragment {
         return fragment;
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (view == null) {
             Log.i("sys", "MF onCreateView() null");
             view = inflater.inflate(R.layout.map_main, null);

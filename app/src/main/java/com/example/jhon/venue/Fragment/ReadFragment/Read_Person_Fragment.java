@@ -18,10 +18,12 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.jhon.venue.Adapter.RV_Swripe_Adapter;
+import com.example.jhon.venue.Bean.Article;
 import com.example.jhon.venue.Bean.Imm;
 import com.example.jhon.venue.Bean.ImmUtil;
 import com.example.jhon.venue.Interface.JudgeInterface;
 import com.example.jhon.venue.Interface.LoadMoreDataListener;
+import com.example.jhon.venue.Model.ActicalOperation;
 import com.example.jhon.venue.R;
 import com.example.jhon.venue.Util.UpdateDataUtil;
 
@@ -40,11 +42,13 @@ public class Read_Person_Fragment extends Fragment implements RV_Swripe_Adapter.
     private SwipeRefreshLayout srl_read_person;
     private RV_Swripe_Adapter rv_swripe_adapter;
 
-    private List<Imm.ResultsBean> list=new ArrayList<Imm.ResultsBean>();
-    private List<Imm.ResultsBean> moreData = new ArrayList<>();
-    private List<Imm.ResultsBean> refreshData = new ArrayList<>();
+    private List<Article> list=new ArrayList<Article>();
+    private List<Article> moreData = new ArrayList<>();
+    private List<Article> refreshData = new ArrayList<>();
 
     private int page;
+    private int firstpage;
+    private boolean isFirst=true;
 
     @Nullable
     @Override
@@ -65,15 +69,21 @@ public class Read_Person_Fragment extends Fragment implements RV_Swripe_Adapter.
     private void initData() {
         srl_read_person.setEnabled(false);
         page=1;
+        firstpage=1;
         srl_read_person.setRefreshing(true);
-        UpdateDataUtil.initData("http://gank.io/api/data/福利/10/" + page, new JudgeInterface() {
+        ActicalOperation.getActicalPage(1,new JudgeInterface() {
             @Override
             public void onSuccess() {
-                srl_read_person.setRefreshing(false);
-                list.clear();
-                list.addAll(ImmUtil.getImm().getResults());
-                rv_swripe_adapter.notifyDataSetChanged();
-                srl_read_person.setEnabled(true);
+                if (ActicalOperation.list!=null){
+                    srl_read_person.setRefreshing(false);
+                    list.clear();
+                    list.addAll(ActicalOperation.list);
+                    rv_swripe_adapter.notifyDataSetChanged();
+
+                    isFirst=false;
+                    srl_read_person.setEnabled(true);
+                    rv_swripe_adapter.setLoaded(false);
+                }
             }
 
             @Override
@@ -85,64 +95,64 @@ public class Read_Person_Fragment extends Fragment implements RV_Swripe_Adapter.
 
     //初始化加载更多数据,数据最好超过临界值5
     private void loadMoreDataFromNet() {
-        final int lastpage=page;
-        page++;
-        if (page>0){
-            UpdateDataUtil.loadMoreData("http://gank.io/api/data/福利/10/" + page, new JudgeInterface() {
-                @Override
-                public void onSuccess() {
-//                    srl_read_page.setRefreshing(false);
-                    moreData.addAll(ImmUtil.getImm().getResults());
-                    list.remove(list.size() - 1);
-                    rv_swripe_adapter.notifyDataSetChanged();
-                    list.addAll(moreData);
-                    rv_swripe_adapter.notifyDataSetChanged();
-                    rv_swripe_adapter.setLoaded(false);
-                }
-
-                @Override
-                public void onError(Exception e) {
-                    page=lastpage;
-                    list.remove(list.size() - 1);
-                    rv_swripe_adapter.notifyDataSetChanged();
-                    rv_swripe_adapter.setLoaded(false);
-//                    srl_read_page.setRefreshing(false);
-                }
-            });
-        }else {
-            page=lastpage;
-            Snackbar.make(view,"没有上一页了",Snackbar.LENGTH_SHORT).show();
-        }
+//        final int lastpage=page;
+//        page++;
+//        if (page>0){
+//            UpdateDataUtil.loadMoreData("http://gank.io/api/data/福利/10/" + page, new JudgeInterface() {
+//                @Override
+//                public void onSuccess() {
+////                    srl_read_page.setRefreshing(false);
+//                    moreData.addAll(ImmUtil.getImm().getResults());
+//                    list.remove(list.size() - 1);
+//                    rv_swripe_adapter.notifyDataSetChanged();
+//                    list.addAll(moreData);
+//                    rv_swripe_adapter.notifyDataSetChanged();
+//                    rv_swripe_adapter.setLoaded(false);
+//                }
+//
+//                @Override
+//                public void onError(Exception e) {
+//                    page=lastpage;
+//                    list.remove(list.size() - 1);
+//                    rv_swripe_adapter.notifyDataSetChanged();
+//                    rv_swripe_adapter.setLoaded(false);
+////                    srl_read_page.setRefreshing(false);
+//                }
+//            });
+//        }else {
+//            page=lastpage;
+//            Snackbar.make(view,"没有上一页了",Snackbar.LENGTH_SHORT).show();
+//        }
 
     }
 
     //初始化下拉刷新数据
     private void loadRefreshDataFromNet() {
-        final int lastpage=page;
-        page--;
-        if (page>0){
-            UpdateDataUtil.loadRefreshData("http://gank.io/api/data/福利/10/" + page, new JudgeInterface() {
-                @Override
-                public void onSuccess() {
-                    srl_read_person.setRefreshing(false);
-                    //移除刷新的progressBar
-                    refreshData.addAll(ImmUtil.getImm().getResults());
-                    list.addAll(0, refreshData);
-                    rv_swripe_adapter.notifyDataSetChanged();
-                    srl_read_person.setRefreshing(false);
-                }
-
-                @Override
-                public void onError(Exception e) {
-                    page=lastpage;
-                    srl_read_person.setRefreshing(false);
-                }
-            });
-        }else {
-            page=lastpage;
-            srl_read_person.setRefreshing(false);
-            Snackbar.make(view,"没有下一页了",Snackbar.LENGTH_SHORT).show();
-        }
+//        final int lastpage=page;
+//        page--;
+//        if (page>0){
+//            UpdateDataUtil.loadRefreshData("http://gank.io/api/data/福利/10/" + page, new JudgeInterface() {
+//                @Override
+//                public void onSuccess() {
+//                    srl_read_person.setRefreshing(false);
+//                    //移除刷新的progressBar
+//                    refreshData.addAll(ImmUtil.getImm().getResults());
+//                    list.addAll(0, refreshData);
+//                    rv_swripe_adapter.notifyDataSetChanged();
+//                    srl_read_person.setRefreshing(false);
+//                }
+//
+//                @Override
+//                public void onError(Exception e) {
+//                    page=lastpage;
+//                    srl_read_person.setRefreshing(false);
+//                }
+//            });
+//        }else {
+//            page=lastpage;
+//            srl_read_person.setRefreshing(false);
+//            Snackbar.make(view,"没有下一页了",Snackbar.LENGTH_SHORT).show();
+//        }
 
     }
 
@@ -226,12 +236,15 @@ public class Read_Person_Fragment extends Fragment implements RV_Swripe_Adapter.
 //                    Snackbar.make(v,position+"",Snackbar.LENGTH_SHORT).show();
 //                }
 //            });
-            if (list.get(position).getUrl()!=null){
+            if (list.get(position).getImagePath()!=null){
 //                DisplayMetrics dm=new DisplayMetrics();
 //                getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
 //                String url=list.get(position).getUrl();
 //                url=url+"?imageView2/0/w/"+dm.widthPixels;
-                Glide.with(getContext()).load(list.get(position).getUrl()).centerCrop().into(((PersonAdapter)holder).img_detail_bg);
+                Glide.with(getContext()).load(list.get(position).getImagePath())
+                        .override(view.getMeasuredWidth(),view.getMeasuredWidth())
+                        .centerCrop()
+                        .into(((PersonAdapter)holder).img_detail_bg);
             }
         }
 //                Snackbar.make(v,position+"",Snackbar.LENGTH_SHORT).show();

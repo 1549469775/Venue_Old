@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,8 @@ import com.amap.api.maps.*;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.example.jhon.venue.Bean.ActicalListUtil;
+import com.example.jhon.venue.Bean.Article;
 import com.example.jhon.venue.Bean.Loc;
 import com.example.jhon.venue.Bean.LocUtil;
 import com.example.jhon.venue.Map.Location;
@@ -35,6 +38,7 @@ public class MMMFragment extends SupportMapFragment {
 
     private MapView mMapView = null;
     private AMap aMap=null;
+    private FloatingActionButton fab_seach;
 
     private ArrayList<MarkerOptions> list=new ArrayList<>();
     private List<Loc.Results> list_result;
@@ -52,7 +56,7 @@ public class MMMFragment extends SupportMapFragment {
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle bundle) {
-        view=layoutInflater.inflate(R.layout.map_main, null);
+        view=layoutInflater.inflate(R.layout.map_main, viewGroup,false);
         mMapView = (MapView) view.findViewById(R.id.map);
         mMapView.onCreate(bundle);// 此方法须覆写，虚拟机需要在很多情况下保存地图绘制的当前状态。
         if (aMap == null) {
@@ -60,6 +64,13 @@ public class MMMFragment extends SupportMapFragment {
             aMap.clear();
         }
         setUpMapIfNeeded();
+        fab_seach= (FloatingActionButton) view.findViewById(R.id.fab_seach);
+        fab_seach.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         return view;
     }
 
@@ -94,16 +105,13 @@ public class MMMFragment extends SupportMapFragment {
     public void init(){
         Loc loc=new Loc();
         final List<Loc.Results> ll=new ArrayList<>();
-        Loc.Results results=new Loc.Results();
-        results.setLatitude(28.682996);
-        results.setLongtitude(116.035815);
-        results.setTitle("sdasd");
-        ll.add(results);
-        Loc.Results results2=new Loc.Results();
-        results2.setLatitude(28.681705);
-        results2.setLongtitude(116.034883);
-        results2.setTitle("sdssdsfsdfsfsasd");
-        ll.add(results2);
+        for (int i=0;i< ActicalListUtil.getList().size();i++){
+            Loc.Results results=new Loc.Results();
+            results.setLatitude(ActicalListUtil.getList().get(i).getLatitude());
+            results.setLongtitude(ActicalListUtil.getList().get(i).getLongtitude());
+            ll.add(results);
+        }
+
         loc.setResultses(ll);
         LocUtil.setLoc(loc);
         list_result= LocUtil.getLoc().getResultses();

@@ -30,7 +30,7 @@ public class RV_Swripe_Adapter extends RecyclerView.Adapter {
     private static final int VIEW_FOOTER=3;
 
     private LayoutInflater inflater;
-    private List<Imm.ResultsBean> list_data;
+    private List<Class> list_data;
 
     private RecyclerView.ViewHolder topHolder;
     private RecyclerView.ViewHolder firstHolder;
