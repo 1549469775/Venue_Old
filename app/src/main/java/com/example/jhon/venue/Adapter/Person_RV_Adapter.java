@@ -3,6 +3,7 @@ package com.example.jhon.venue.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -73,7 +74,21 @@ public class Person_RV_Adapter extends RecyclerView.Adapter<Person_RV_Adapter.Pe
                 holder.card_person_top.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        context.startActivity(new Intent(context, PersonDetailActivity.class));
+                        onImgClickListener.onImgClick(v);
+//                        context.startActivity(new Intent(context, LoginActivity.class));
+                    }
+                });
+                holder.img_person.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onImgClickListener.onImgClick(v);
+                    }
+                });
+                holder.img_person.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        onLongClickListener.onLongClick(v);
+                        return false;
                     }
                 });
                 break;
@@ -127,9 +142,13 @@ public class Person_RV_Adapter extends RecyclerView.Adapter<Person_RV_Adapter.Pe
 
         private LinearLayout ll_person_center;
         private CardView card_person_top;
+        private ImageView img_person;
+//        private TextView tv_person_name;
 
         public PersonAdapter(View itemView) {
             super(itemView);
+//            tv_person_name=(TextView) itemView.findViewById(R.id.tv_person_name);
+            img_person=(ImageView) itemView.findViewById(R.id.img_person);
             ll_person_center= (LinearLayout) itemView.findViewById(R.id.ll_person_center);
             card_person_top= (CardView) itemView.findViewById(R.id.card_person_top);
         }
@@ -145,4 +164,23 @@ public class Person_RV_Adapter extends RecyclerView.Adapter<Person_RV_Adapter.Pe
         this.onItemClickListener=onItemClickListener;
     }
 
+    private OnImgClickListener onImgClickListener;
+
+    public interface OnImgClickListener{
+        void onImgClick(View view);
+    }
+
+    public void setOnImgClickListener(OnImgClickListener onImgClickListener){
+        this.onImgClickListener=onImgClickListener;
+    }
+
+    private OnLongClickListener onLongClickListener;
+
+    public interface OnLongClickListener{
+        void onLongClick(View view);
+    }
+
+    public void setOnLongClickListener(OnLongClickListener onLongClickListener) {
+        this.onLongClickListener = onLongClickListener;
+    }
 }

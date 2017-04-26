@@ -21,6 +21,10 @@ import com.example.jhon.venue.Interface.LoginListener;
 import com.example.jhon.venue.Preference.LoginAction;
 import com.example.jhon.venue.R;
 
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
+
 /**
  * Created by John on 2017/3/14.
  */
@@ -88,9 +92,6 @@ public class LoginActivity extends AppCompatActivity implements LoginListener{
         etSetVisibility(1);
         if (isLogin) {
             if (checkIsEmpty(1)){
-                user=new User(register_nickname.getText().toString(),
-                        login_email.getText().toString(),
-                        login_password.getText().toString());
                 action.login(new JudgeInterface() {
                     @Override
                     public void onSuccess() {
@@ -99,7 +100,8 @@ public class LoginActivity extends AppCompatActivity implements LoginListener{
 
                     @Override
                     public void onError(Exception e) {
-                        Snackbar.make(vie,e.getMessage()+"  sdasd",Snackbar.LENGTH_SHORT).show();
+                        Log.d("xyx",e.getMessage());
+                        Snackbar.make(vie,e.getMessage(),Snackbar.LENGTH_SHORT).show();
                     }
                 });
             }else
@@ -127,44 +129,48 @@ public class LoginActivity extends AppCompatActivity implements LoginListener{
         etSetVisibility(0);
         if (isRegister) {
             if (checkIsEmpty(0)){
-                if (TextUtils.equals(login_password.getText().toString(),register_confrom.getText().toString())){
-                    user=new User(register_nickname.getText().toString(),
-                            login_email.getText().toString(),
-                            login_password.getText().toString());
-                    action.register(new JudgeInterface() {
-                        @Override
-                        public void onSuccess() {
-                            Snackbar.make(vie,"Success",Snackbar.LENGTH_SHORT).show();
-                        }
+                if (TextUtils.equals(login_password.getText().toString(),register_confrom.getText().toString())) {
+                        action.register(new JudgeInterface() {
+                            @Override
+                            public void onSuccess() {
+                                Snackbar.make(vie, "Success", Snackbar.LENGTH_SHORT).show();
+                            }
 
-                        @Override
-                        public void onError(Exception e) {
-                            Snackbar.make(vie,"Error",Snackbar.LENGTH_SHORT).show();
-                        }
-                    });
+                            @Override
+                            public void onError(Exception e) {
+                                Snackbar.make(vie, e.getMessage(), Snackbar.LENGTH_SHORT).show();
+                            }
+                        });
                 }else {
-                    Snackbar.make(view,"两次密码不同",Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(view,"两次输入的密码不同",Snackbar.LENGTH_SHORT).show();
                 }
-            }else
+            }else {
                 Snackbar.make(view,"请全部填写信息",Snackbar.LENGTH_SHORT).show();
+            }
         }else {
             initText();
         }
         isRegister = true;
     }
 
+
     @Override
-    public ViewGroup getLoadView(){
-        return (ViewGroup) findViewById(R.id.load);
+    public String getUsername() {
+        return login_email.getText().toString();
     }
 
     @Override
-    public User getUser() {
-        return user;
+    public String getPassword() {
+        return login_password.getText().toString();
     }
 
     @Override
-    public void startToActivity(Class c) {
+    public String getNickname() {
+        return register_nickname.getText().toString();
+    }
 
+    @Override
+    public void startToActivity() {
+        finish();
     }
 }

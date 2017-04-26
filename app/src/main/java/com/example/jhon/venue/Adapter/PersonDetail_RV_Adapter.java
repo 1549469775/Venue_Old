@@ -6,7 +6,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.example.jhon.venue.Bean.UserUtil;
 import com.example.jhon.venue.R;
 
 import java.util.List;
@@ -60,6 +64,8 @@ public class PersonDetail_RV_Adapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof PersonDetailAdapter){
 
+            ((PersonDetailAdapter) holder).persondetail_person_nickname.setText(UserUtil.getUser().getNickname());
+
         }else if (getItemViewType(position)==VIEW_BOOTM){
             addHolderListener.addListener(holder,position);
         }
@@ -67,8 +73,11 @@ public class PersonDetail_RV_Adapter extends RecyclerView.Adapter {
 
     private class PersonDetailAdapter extends RecyclerView.ViewHolder{
 
+        private TextView persondetail_person_nickname;
+
         public PersonDetailAdapter(View itemView) {
             super(itemView);
+            persondetail_person_nickname= (TextView) itemView.findViewById(R.id.persondetail_person_nickname);
         }
     }
 

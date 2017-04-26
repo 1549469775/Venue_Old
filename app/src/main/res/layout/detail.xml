@@ -28,6 +28,8 @@
 
         <TextView
             android:id="@+id/tv_detail_title"
+            android:maxLines="1"
+            android:maxWidth="300dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/img_detail_bg"
@@ -42,6 +44,7 @@
             android:id="@+id/tv_detail_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="2"
             android:layout_below="@id/tv_detail_title"
             android:layout_marginBottom="@dimen/card_subtitle_margin"
             android:layout_marginLeft="@dimen/card_subtitle_margin"
@@ -49,14 +52,15 @@
             android:layout_marginTop="@dimen/card_button_margin"
             android:text="Subtitle here" />
 
-        <Button
+        <RadioButton
             android:id="@+id/btn_detail_prise"
+            android:button="@null"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_detail_subtitle"
             android:layout_margin="@dimen/card_button_margin"
-            android:text="点个赞"
+            android:text="点赞"
             android:textColor="@color/colorAccent" />
 
         <Button

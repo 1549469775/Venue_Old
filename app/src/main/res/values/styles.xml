@@ -13,6 +13,19 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <!--此处有android：，不知何意-->
+    <style name="Dialog" parent="Base.Theme.AppCompat.Light.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowNoTitle">true</item>
+        <!--<item name="android:windowIsFloating">true</item>-->
+        <!--true居中显示，并靠左右有距离-->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+    </style>
+
     <style name="AppTheme.NoActionBar_StatusBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

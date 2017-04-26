@@ -22,79 +22,50 @@ import com.example.jhon.venue.UI.UIProgressDialog;
 public class LoginAction {
 
     private Context context;
-    private LoginListener listener;
+    private LoginListener listeners;
     private LoginOperation operation;
-
-    private ViewGroup view;
-    private LinearLayout aaa;
-    private TextView bbb,ccc;
-
 
     public LoginAction(Context context, LoginListener listener) {
         this.context = context;
-        this.listener = listener;
+        this.listeners = listener;
         this.operation = new LoginOperation();
 
-        this.view=listener.getLoadView();
-        aaa= (LinearLayout) view.findViewById(R.id.aaa);
-        bbb= (TextView) view.findViewById(R.id.bbb);
-        ccc= (TextView) view.findViewById(R.id.ccc);
     }
 
     public void login(final JudgeInterface listener){
-
-//        TransitionManager.beginDelayedTransition(view);
-        aaa.setVisibility(View.VISIBLE);
-        ccc.setVisibility(View.GONE);
-        bbb.setVisibility(View.GONE);
-
-        operation.startLogin(this.listener.getUser(), new JudgeInterface() {
+        UIProgressDialog.showProgress(context,"登陆中。。。");
+        operation.bmobLogin(this.listeners.getUsername(),this.listeners.getPassword(), new JudgeInterface() {
             @Override
             public void onSuccess() {
-                aaa.setVisibility(View.GONE);
-                ccc.setVisibility(View.GONE);
-                bbb.setVisibility(View.VISIBLE);
-                bbb.setWidth(view.getWidth());
+                UIProgressDialog.closeProgress();
                 listener.onSuccess();
+                listeners.startToActivity();
             }
 
             @Override
             public void onError(Exception e) {
-                aaa.setVisibility(View.GONE);
-                bbb.setVisibility(View.GONE);
-                ccc.setVisibility(View.VISIBLE);
-                ccc.setWidth(view.getWidth());
+                UIProgressDialog.closeProgress();
                 listener.onError(e);
             }
         });
+//        TransitionManager.beginDelayedTransition(view);
     }
 
     public void register(final JudgeInterface listener){
-
-        aaa.setVisibility(View.VISIBLE);
-        ccc.setVisibility(View.GONE);
-        bbb.setVisibility(View.GONE);
-
-        operation.startRegister(this.listener.getUser(), new JudgeInterface() {
+        UIProgressDialog.showProgress(context,"注册中。。。");
+        operation.bmobRegister(this.listeners.getUsername(),this.listeners.getPassword(), this.listeners.getNickname(), new JudgeInterface() {
             @Override
             public void onSuccess() {
-
-                aaa.setVisibility(View.GONE);
-                ccc.setVisibility(View.GONE);
-                bbb.setVisibility(View.VISIBLE);
-                bbb.setWidth(view.getWidth());
+                UIProgressDialog.closeProgress();
                 listener.onSuccess();
             }
 
             @Override
             public void onError(Exception e) {
-//                TransitionManager.beginDelayedTransition(view);
-                aaa.setVisibility(View.GONE);
-                bbb.setVisibility(View.GONE);
-                ccc.setVisibility(View.VISIBLE);
-                ccc.setWidth(view.getWidth());
+                UIProgressDialog.closeProgress();
                 listener.onError(e);
             }
         });
+////                TransitionManager.beginDelayedTransition(view);
     }
 }

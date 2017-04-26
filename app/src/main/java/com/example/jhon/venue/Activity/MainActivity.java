@@ -20,6 +20,7 @@ import com.example.jhon.venue.Fragment.MapFragment.MapFragment;
 import com.example.jhon.venue.Fragment.Message.MessageFragment;
 import com.example.jhon.venue.Fragment.PersonFragment.PersonFragment;
 import com.example.jhon.venue.Map.MapDownload;
+import com.example.jhon.venue.Model.ActicalOperation;
 import com.example.jhon.venue.R;
 import com.example.jhon.venue.Fragment.ReadFragment.ReadFragment;
 
@@ -180,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.app_bar_search) {
+            ActicalOperation.getActical();
 //            startActivity(new Intent(MainActivity.this,DetailActivity.class));
             return true;
         }

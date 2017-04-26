@@ -24,6 +24,9 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
+    <!--保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -55,6 +58,7 @@
         <activity android:name=".Activity.LoginActivity"/>
         <activity android:name=".Activity.Activity_Up"/>
         <activity android:name=".Activity.PersonDetailActivity"/>
+        <activity android:name=".Activity.ShowActivity" android:theme="@style/Dialog"/>
     </application>
 
 </manifest>
